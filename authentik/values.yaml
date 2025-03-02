@@ -1,0 +1,87 @@
+authentik:
+  postgresql:
+    enabled: true
+    image:
+      repository: bitnami/postgresql
+      tag: 15.8.0-debian-12-r18
+    auth:
+      username: authentik
+      database: authentik
+      existingSecret: "authentik-credentials"
+      secretKeys:
+        adminPasswordKey: "admin-password"
+        userPasswordKey: "user-password"
+        replicationPasswordKey: "replication-password"
+    primary:
+      extendedConfiguration: |
+        max_connections = 500
+      resourcesPreset: "none"
+      persistence:
+        enabled: true
+        storageClass: weyma-shared
+        accessModes:
+          - ReadWriteOnce
+      readReplicas:
+        resourcesPreset: "none"
+      backup:
+        resourcesPreset: "none"
+      passwordUpdateJob:
+        resourcesPreset: "none"
+      volumePermissions:
+        resourcesPreset: "none"
+      metrics:
+        resourcesPreset: "none"
+  redis:
+    enabled: true
+    architecture: standalone
+    auth:
+      enabled: false
+    master:
+      resourcesPreset: "none"
+    replica:
+      resourcesPreset: "none"
+    sentinel:
+      resourcesPreset: "none"
+    metrics:
+      resourcesPreset: "none"
+    volumePermissions:
+      resourcesPreset: "none"
+    sysctl:
+      resourcesPreset: "none"
+  global:
+    env:
+      - name: AUTHENTIK_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: authentik-credentials
+            key: authentik-secret-key
+  additionalObjects:
+    - apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      metadata:
+        name: authentik-credentials
+      spec:
+        refreshInterval: 1h
+        secretStoreRef:
+          name: weyma-vault
+          kind: ClusterSecretStore
+        target:
+          name: authentik-credentials
+          creationPolicy: Owner
+        data:
+          - secretKey: admin-password
+            remoteRef:
+              key: authentik
+              property: admin-password
+          - secretKey: authentik-secret-key
+            remoteRef:
+              key: authentik
+              property: authentik-secret-key
+          - secretKey: replication-password
+            remoteRef:
+              key: authentik
+              property: replication-password
+          - secretKey: user-password
+            remoteRef:
+              key: authentik
+              property: user-password

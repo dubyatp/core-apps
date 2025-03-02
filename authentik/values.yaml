@@ -60,7 +60,27 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: user-password
+  ingress:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
+      hosts:
+        - auth.dubyatp.xyz
+      tls:
+        - secretName: cert-dubyatp-xyz
+          hosts:
+            - auth.dubyatp.xyz
   additionalObjects:
+    - apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cert-dubyatp-xyz
+        annotations:
+          replicator.v1.mittwald.de/replicate-from: cert-manager/cert-dubyatp-xyz
+          replicator.v1.mittwald.de/replicated-keys: tls.crt,tls.key
+        data:
+          tls.crt: ""
+          tls.key: ""
     - apiVersion: external-secrets.io/v1beta1
       kind: ExternalSecret
       metadata:

@@ -60,6 +60,7 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: user-password
+  server:
     ingress:
       enabled: true
       annotations:

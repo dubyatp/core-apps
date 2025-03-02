@@ -13,6 +13,8 @@ authentik:
         userPasswordKey: "user-password"
         replicationPasswordKey: "replication-password"
     primary:
+      podAnnotations:
+        backup.velero.io/backup-volumes: data
       extendedConfiguration: |
         max_connections = 500
       resourcesPreset: "none"
@@ -38,6 +40,8 @@ authentik:
       enabled: false
     master:
       resourcesPreset: "none"
+      podAnnotations:
+        backup.velero.io/backup-volumes: redis-data
     replica:
       resourcesPreset: "none"
     sentinel:

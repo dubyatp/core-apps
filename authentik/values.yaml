@@ -60,16 +60,16 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: user-password
-  ingress:
-    enabled: true
-    annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
-      hosts:
-        - auth.dubyatp.xyz
-      tls:
-        - secretName: cert-dubyatp-xyz
-          hosts:
-            - auth.dubyatp.xyz
+    ingress:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
+        hosts:
+          - auth.dubyatp.xyz
+        tls:
+          - secretName: cert-dubyatp-xyz
+            hosts:
+              - auth.dubyatp.xyz
   additionalObjects:
     - apiVersion: v1
       kind: Secret

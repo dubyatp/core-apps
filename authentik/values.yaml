@@ -55,6 +55,11 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: authentik-secret-key
+      - name: AUTHENTIK_POSTGRESQL__PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-credentials
+            key: user-password
   additionalObjects:
     - apiVersion: external-secrets.io/v1beta1
       kind: ExternalSecret

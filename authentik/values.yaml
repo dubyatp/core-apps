@@ -3,7 +3,7 @@ authentik:
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true
-        mountPath: "/certs"
+        mountPath: "/certs/dubyatp-xyz"
     volumes:
       - name: cert-dubyatp-xyz
         secret:
@@ -12,7 +12,7 @@ authentik:
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true
-        mountPath: "/certs"
+        mountPath: "/certs/dubyatp-xyz"
     volumes:
       - name: cert-dubyatp-xyz
         secret:

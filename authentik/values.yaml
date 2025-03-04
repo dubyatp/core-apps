@@ -1,4 +1,13 @@
 authentik:
+  server:
+    volumeMounts:
+      - name: cert-dubyatp-xyz
+        readOnly: true
+        mountPath: "/certs"
+    volumes:
+      - name: cert-dubyatp-xyz
+        secret:
+          secretName: cert-dubyatp-xyz
   postgresql:
     enabled: true
     image:

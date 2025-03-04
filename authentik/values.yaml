@@ -7,6 +7,7 @@ authentik:
     volumes:
       - name: cert-dubyatp-xyz
         secret:
+          defaultMode: 0644
           secretName: cert-dubyatp-xyz
   worker:
     volumeMounts:

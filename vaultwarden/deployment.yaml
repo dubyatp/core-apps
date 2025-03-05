@@ -8,6 +8,8 @@ spec:
       app: vaultwarden
   template:
     metadata:
+      annotations:
+        backup.velero.io/backup-volumes: vaultwarden-pvc
       labels:
         app: vaultwarden
     spec:

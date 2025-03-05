@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaultwarden-config
+data:
+  DATA_FOLDER: config
+  DOMAIN: https://vaultwarden.dubyatp.xyz
+  SIGNUPS_ALLOWED: "false"
+  SMTP_FROM: bitwarden@em3532.williamtpeebles.com
+  SMTP_FROM_NAME: Vaultwarden
+  SMTP_HOST: smtp.sendgrid.net
+  SMTP_PORT: "587"
+  SMTP_SECURITY: starttls
+  SMTP_TIMEOUT: "15"
+  SMTP_USERNAME: apikey

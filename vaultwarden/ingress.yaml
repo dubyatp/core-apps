@@ -4,6 +4,8 @@ metadata:
   name: vaultwarden
   labels:
     name: vaultwarden
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
 spec:
   rules:
   - host: vaultwarden.dubyatp.xyz

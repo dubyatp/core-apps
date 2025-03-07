@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: emby-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
+spec:
+  rules:
+  - host: emby.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: emby-http-svc
+            port: 
+              number: 80
+  tls:
+  - hosts:
+    - emby.dubyatp.xyz
+    secretName: cert-dubyatp-xyz

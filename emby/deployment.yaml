@@ -26,8 +26,6 @@ spec:
         - name: dev-dri
           hostPath:
             path: /dev/dri
-      securityContext:
-        privileged: true
       containers:
       - name: emby
         image: emby/embyserver:4.9.0.41
@@ -47,6 +45,8 @@ spec:
           value: "1000"
         - name: GIDLIST
           value: "100"
+        securityContext:
+          privileged: true
         resources:
           limits:
             memory: "4096Mi"

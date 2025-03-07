@@ -8,6 +8,8 @@ spec:
       app: emby
   template:
     metadata:
+      annotations:
+        backup.velero.io/backup-volumes: emby-config
       labels:
         app: emby
     spec:

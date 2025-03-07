@@ -15,7 +15,7 @@ spec:
           service:
             name: emby-http-svc
             port: 
-              number: 80
+              number: 8096
   tls:
   - hosts:
     - emby.dubyatp.xyz

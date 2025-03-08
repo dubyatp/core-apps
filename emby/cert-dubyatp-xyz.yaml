@@ -5,6 +5,6 @@ metadata:
   annotations:
     replicator.v1.mittwald.de/replicate-from: "cert-manager/cert-dubyatp-xyz"
     replicator.v1.mittwald.de/replicated-keys: "tls.crt,tls.key"
-  data:
-    tls.crt: ""
-    tls.key: ""
+data:
+  tls.crt: ""
+  tls.key: ""

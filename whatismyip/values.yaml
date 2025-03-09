@@ -2,8 +2,6 @@ whatsmyip:
   ingress:
     main:
       enabled: true
-      annotations:
-        traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
       hosts:
         - host: whatismyip.dubyatp.xyz
           paths:

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatismyip
+spec:
+  selector:
+    matchLabels:
+      app: whatismyip
+  template:
+    metadata:
+      labels:
+        app: whatismyip
+    spec:
+      containers:
+      - name: whatismyip
+        image: ghcr.io/eugenmayer/whatsmyip:0.0.1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

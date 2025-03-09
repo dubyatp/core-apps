@@ -1,0 +1,24 @@
+whatismyip:
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
+      hosts:
+        - host: whatismyip.dubyatp.xyz
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - whatismyip.dubyatp.xyz
+          secretName: cert-dubyatp-xyz
+  secret:
+    cert-dubyatp-xyz:
+      enabled: true
+      annotations:
+        replicator.v1.mittwald.de/replicate-from: "cert-manager/cert-dubyatp-xyz"
+        replicator.v1.mittwald.de/replicated-keys: "tls.crt,tls.key"
+      data:
+        tls.crt: ""
+        tls.key: ""

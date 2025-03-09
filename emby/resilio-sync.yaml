@@ -23,7 +23,7 @@ spec:
           mountPath: /sync/movies
         resources:
           limits:
-            memory: "128Mi"
+            memory: "700Mi"
             cpu: "500m"
       volumes:
         - name: config

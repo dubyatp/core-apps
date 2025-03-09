@@ -47,6 +47,14 @@ spec:
           value: "1000"
         - name: GIDLIST
           value: "100"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
         securityContext:
           privileged: true
         resources:

@@ -16,6 +16,12 @@ spec:
       containers:
       - name: vaultwarden
         image: vaultwarden/server:1.33.2-alpine
+        livenessProbe:
+          exec:
+            command:
+              - /healthcheck.sh
+            initialDelaySeconds: 10
+            periodSeconds: 60
         resources:
           limits:
             memory: "128Mi"

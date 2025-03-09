@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: emby
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: emby
@@ -51,8 +53,6 @@ spec:
           httpGet:
             path: /
             port: http
-        strategy:
-          type: Recreate
         securityContext:
           privileged: true
         resources:

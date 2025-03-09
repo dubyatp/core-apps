@@ -51,10 +51,6 @@ spec:
           httpGet:
             path: /
             port: http
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
         strategy:
           type: Recreate
         securityContext:

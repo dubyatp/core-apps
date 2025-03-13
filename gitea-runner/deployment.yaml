@@ -10,10 +10,10 @@ spec:
     matchLabels:
       app: gitea-runner
   template:
+    metadata:
+      labels:
+        app: gitea-runner
     spec:
-      metadata:
-        labels:
-          app: gitea-runner
       restartPolicy: Always
       volumes:
       - name: runner-data

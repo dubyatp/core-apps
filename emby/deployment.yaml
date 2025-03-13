@@ -32,7 +32,7 @@ spec:
             path: /dev/dri
       containers:
       - name: emby
-        image: emby/embyserver:4.9.0.41
+        image: emby/embyserver:4.8.11.0
         volumeMounts:
           - name: tv-shows
             mountPath: /mnt/tv-shows

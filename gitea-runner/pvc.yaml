@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: gita-runner-pvc
+  name: gitea-runner-pvc
 spec:
   resources:
     requests:

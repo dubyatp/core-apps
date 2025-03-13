@@ -2,21 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: act-runner
-  name: act-runner
+    app: gitea-runner
+  name: gitea-runner
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: act-runner
-  strategy: {}
+      app: gitea-runner
   template:
     spec:
       restartPolicy: Always
       volumes:
       - name: runner-data
         persistentVolumeClaim:
-          claimName: act-runner-vol
+          claimName: gitea-runner-pvc
       securityContext:
         fsGroup: 1000
       containers:

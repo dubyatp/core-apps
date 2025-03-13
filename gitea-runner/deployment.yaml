@@ -11,6 +11,9 @@ spec:
       app: gitea-runner
   template:
     spec:
+      metadata:
+        labels:
+          app: gitea-runner
       restartPolicy: Always
       volumes:
       - name: runner-data

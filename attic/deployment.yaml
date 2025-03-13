@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attic
+spec:
+  selector:
+    matchLabels:
+      app: attic
+  template:
+    metadata:
+      labels:
+        app: attic
+    spec:
+      containers:
+      - name: attic
+        image: ghcr.io/zhaofengli/attic:ff8a897d1f4408ebbf4d45fa9049c06b3e1e3f4e
+        envFrom:
+        - secretRef:
+            name: attic-secret
+        volumeMounts:
+        - name: attic-pvc
+          mountPath: /var/empty
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+      volumes:
+      - name: attic-pvc
+        persistentVolumeClaim:
+          claimName: attic-pvc

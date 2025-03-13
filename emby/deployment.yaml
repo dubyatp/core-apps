@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emby
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: emby
+  template:
+    metadata:
+      annotations:
+        backup.velero.io/backup-volumes: emby-config
+      labels:
+        app: emby
+    spec:
+      volumes:
+        - name: tv-shows
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/tv-shows
+        - name: movies
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/movies
+        - name: emby-config
+          persistentVolumeClaim:
+            claimName: emby-config
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri
+      containers:
+      - name: emby
+        image: emby/embyserver:4.9.0.41
+        volumeMounts:
+          - name: tv-shows
+            mountPath: /mnt/tv-shows
+          - name: movies
+            mountPath: /mnt/movies
+          - name: emby-config
+            mountPath: /config
+          - name: dev-dri
+            mountPath: /dev/dri
+        env:
+        - name: UID
+          value: "1000"
+        - name: GID
+          value: "1000"
+        - name: GIDLIST
+          value: "100"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        securityContext:
+          privileged: true
+        resources:
+          limits:
+            memory: "4096Mi"
+            cpu: "1000m"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: extensions.talos.dev/i915
+                operator: Exists

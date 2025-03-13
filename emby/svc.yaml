@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: emby-http-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: emby
+  ports:
+  - port: 8096
+    targetPort: 8096
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emby-https-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: emby
+  ports:
+  - port: 8920
+    targetPort: 8920

@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whatismyip-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
+spec:
+  rules:
+  - host: whatismyip.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: whatismyip-svc
+            port: 
+              number: 8080
+  tls:
+  - hosts:
+    - whatismyip.dubyatp.xyz
+    secretName: cert-dubyatp-xyz

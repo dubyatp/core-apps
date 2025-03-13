@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: attic
+  labels:
+    name: attic
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: cloudflarewarp@file
+spec:
+  rules:
+  - host: nix-cache.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: attic-svc
+            port: 
+              number: 8080
+  tls:
+  - hosts:
+    - nix-cache.dubyatp.xyz
+    secretName: cert-dubyatp-xyz

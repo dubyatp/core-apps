@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vlmcsd
+spec:
+  selector:
+    matchLabels:
+      app: vlmcsd
+  template:
+    metadata:
+      labels:
+        app: vlmcsd
+    spec:
+      containers:
+      - name: vlmcsd
+        image: mikolatero/vlmcsd
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          tcpSocket:
+            port: 1688

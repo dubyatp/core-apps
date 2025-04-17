@@ -61,15 +61,15 @@ spec:
             port: http
         securityContext:
           privileged: true
-        nodeSelector:
-          kubernetes.io/hostname: weyma-talos-testw04
         resources:
           limits:
-            memory: "8192Mi"
-            cpu: "1000m"
+            memory: 8Gi
+            cpu: '1'
           requests:
-            memory: "4096Mi"
+            memory: 4Gi
             cpu: "500m"
+      nodeSelector:
+        kubernetes.io/hostname: weyma-talos-testw04
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

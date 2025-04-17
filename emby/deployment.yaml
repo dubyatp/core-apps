@@ -27,6 +27,10 @@ spec:
         - name: emby-config
           persistentVolumeClaim:
             claimName: emby-config
+        - name: transcode-temp
+          emptyDir:
+            sizeLimit: 8Gi
+            medium: Memory
         - name: dev-dri
           hostPath:
             path: /dev/dri
@@ -55,10 +59,15 @@ spec:
             port: http
         securityContext:
           privileged: true
+        nodeSelector:
+          kubernetes.io/hostname: weyma-talos-testw04
         resources:
           limits:
-            memory: "4096Mi"
+            memory: "8192Mi"
             cpu: "1000m"
+          requests:
+            memory: "4096Mi"
+            cpu: "500m"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

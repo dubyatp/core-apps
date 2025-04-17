@@ -44,6 +44,8 @@ spec:
             mountPath: /mnt/movies
           - name: emby-config
             mountPath: /config
+          - name: transcode-temp
+            mountPath: /tmp/transcode
           - name: dev-dri
             mountPath: /dev/dri
         env:

@@ -6,7 +6,7 @@ spec:
   storageClassName: weyma-shared
   resources:
     requests:
-      storage: 20Gi
+      storage: 100Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany

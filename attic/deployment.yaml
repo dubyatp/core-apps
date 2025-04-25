@@ -22,7 +22,7 @@ spec:
           mountPath: /var/empty
         resources:
           limits:
-            memory: "256Mi"
+            memory: "2Gi"
             cpu: "500m"
       volumes:
       - name: attic-pvc

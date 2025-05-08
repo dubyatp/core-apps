@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: nextcloud-nextcloud-headers@kubernetescrd,nextcloud-nextcloud-redirectregex@kubernetescrd
+  labels:
+    name: nextcloud
+spec:
+  rules:
+  - host: nextcloud.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nextcloud
+            port: 
+              number: 80
+  tls:
+    - secretName: cert-dubyatp-xyz
+      hosts:
+        - nextcloud.dubyatp.xyz

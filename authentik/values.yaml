@@ -9,6 +9,11 @@ authentik:
         secret:
           defaultMode: 0644
           secretName: cert-dubyatp-xyz
+  metrics:
+    enabled: true
+    service:
+      labels:
+        metrics_enabled: "true"
   worker:
     volumeMounts:
       - name: cert-dubyatp-xyz

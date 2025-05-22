@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: immich
+  labels:
+    name: immich
+spec:
+  rules:
+  - host: immich.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: immich
+            port: 
+              number: 2283
+  tls:
+    - secretName: cert-dubyatp-xyz
+      hosts:
+        - immich.dubyatp.xyz

@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-server
+spec:
+  selector:
+    matchLabels:
+      app: immich-server
+  template:
+    metadata:
+      labels:
+        app: immich-server
+    spec:
+      containers:
+      - name: immich-server
+        image: ghcr.io/immich-app/immich-server:v1.132.3
+        volumeMounts:
+          - name: library
+            mountPath: /usr/src/app/upload
+          - name: config
+            mountPath: /config/immich-config.yaml
+        env:
+          - name: DB_HOSTNAME
+            value: "weyma-pgsql-rw.cloudnativepg.svc.cluster.local"
+          - name: DB_DATABASE_NAME
+            value: "immich"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: postgres-credentials
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: postgres-credentials
+          - name: REDIS_HOSTNAME
+            value: redis
+          - name: REDIS_PORT
+            value: "6379"
+          - name: IMMICH_PORT
+            value: "2283"
+        livenessProbe:
+          httpGet:
+            path: /api/server/ping
+            port: 2283
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/server/ping
+            port: 2283
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /api/server/ping
+            port: 2283
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 30
+        resources:
+          limits:
+            memory: "8Gi"
+            cpu: "2"
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+      volumes:
+        - name: library
+          persistentVolumeClaim:
+            claimName: immich-library
+        - name: config
+          configMap:
+            name: immich-config

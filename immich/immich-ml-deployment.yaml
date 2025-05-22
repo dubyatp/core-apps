@@ -19,6 +19,8 @@ spec:
             mountPath: /cache
           - name: config
             mountPath: /config/immich-config.yaml
+          - name: dev-dri
+            mountPath: /dev/dri
         env:
           - name: DB_HOSTNAME
             value: "weyma-pgsql-rw.cloudnativepg.svc.cluster.local"
@@ -64,6 +66,8 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 1
           failureThreshold: 30
+        securityContext:
+          privileged: true
         resources:
           limits:
             memory: "8Gi"
@@ -78,3 +82,6 @@ spec:
         - name: config
           configMap:
             name: immich-config
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri

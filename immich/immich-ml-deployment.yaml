@@ -85,3 +85,10 @@ spec:
         - name: dev-dri
           hostPath:
             path: /dev/dri
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: extensions.talos.dev/i915
+                operator: Exists

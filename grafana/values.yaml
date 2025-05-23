@@ -460,7 +460,7 @@ grafana:
       registry: quay.io
       repository: kiwigrid/k8s-sidecar
       sha: ""
-      tag: 1.30.0
+      tag: 1.30.3
     imagePullPolicy: IfNotPresent
     livenessProbe: {}
     notifiers:

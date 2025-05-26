@@ -67,7 +67,7 @@ grafana:
   extraInitContainers: []
   extraLabels: {}
   extraObjects:
-  - apiVersion: external-secrets.io/v1beta1
+  - apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
       name: grafana-admin
@@ -95,7 +95,7 @@ grafana:
         creationPolicy: Owner
         deletionPolicy: Retain
         name: grafana-admin
-  - apiVersion: external-secrets.io/v1beta1
+  - apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
       name: grafana-secretenv

@@ -15,7 +15,7 @@ grafana:
   createConfigmap: true
   defaultCurlOptions: -skf
   deploymentStrategy:
-    type: RollingUpdate
+    type: Recreate
   downloadDashboardsImage:
     pullPolicy: IfNotPresent
     registry: docker.io

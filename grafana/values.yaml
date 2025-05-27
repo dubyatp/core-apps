@@ -16,11 +16,6 @@ grafana:
   defaultCurlOptions: -skf
   deploymentStrategy:
     type: Recreate
-  downloadDashboardsImage:
-    pullPolicy: IfNotPresent
-    registry: docker.io
-    repository: curlimages/curl
-    tag: 8.9.1
   enableServiceLinks: true
   envFromConfigMaps:
   - name: grafana-env
@@ -139,11 +134,6 @@ grafana:
       secretName: cert-dubyatp-xyz
   initChownData:
     enabled: true
-    image:
-      pullPolicy: IfNotPresent
-      registry: docker.io
-      repository: library/busybox
-      tag: 1.31.1
     securityContext:
       capabilities:
         add:

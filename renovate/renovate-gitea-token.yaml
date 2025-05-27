@@ -1,0 +1,17 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: renovate-gitea-token
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: weyma-vault
+    kind: ClusterSecretStore
+  target:
+    name: renovate-gitea-token
+    creationPolicy: Owner
+  data:
+    - secretKey: gitea-pat
+      remoteRef:
+        key: renovate
+        property: gitea-pat

@@ -1,6 +1,6 @@
 authentik:
   server:
-    replicas: 0
+    replicas: 3
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true
@@ -16,7 +16,7 @@ authentik:
         labels:
           metrics_enabled: "true"
   worker:
-    replicas: 0
+    replicas: 3
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true

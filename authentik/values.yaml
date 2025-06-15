@@ -149,7 +149,7 @@ authentik:
           template:
             data:
               username: authentik
-              password: "{{ .password }}"
+              password: '{{ .password }}'
           creationPolicy: Owner
           deletionPolicy: Retain
           name: authentik-db-auth

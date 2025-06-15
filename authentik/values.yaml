@@ -56,10 +56,7 @@ authentik:
       - name: AUTHENTIK_POSTGRESQL__NAME
         value: authentik
       - name: AUTHENTIK_POSTGRESQL__USER
-        valueFrom:
-          secretKeyRef:
-            name: authentik-db-auth
-            key: username
+        value: authentik
       - name: AUTHENTIK_POSTGRESQL__PASSWORD
         valueFrom:
           secretKeyRef:
@@ -146,10 +143,6 @@ authentik:
           kind: ClusterSecretStore
           name: weyma-vault
         target:
-          template:
-            data:
-              username: authentik
-              password: \{\{ .password \}\}
           creationPolicy: Owner
           deletionPolicy: Retain
           name: authentik-db-auth

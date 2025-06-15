@@ -1,6 +1,6 @@
 authentik:
   server:
-    replicas: 0
+    replicas: 3
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true
@@ -16,7 +16,7 @@ authentik:
         labels:
           metrics_enabled: "true"
   worker:
-    replicas: 0
+    replicas: 3
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true
@@ -25,40 +25,6 @@ authentik:
       - name: cert-dubyatp-xyz
         secret:
           secretName: cert-dubyatp-xyz
-  postgresql:
-    enabled: true
-    image:
-      repository: bitnami/postgresql
-      tag: 15.8.0-debian-12-r18
-    auth:
-      username: authentik
-      database: authentik
-      existingSecret: "authentik-credentials"
-      secretKeys:
-        adminPasswordKey: "admin-password"
-        userPasswordKey: "user-password"
-        replicationPasswordKey: "replication-password"
-    primary:
-      podAnnotations:
-        backup.velero.io/backup-volumes: data
-      extendedConfiguration: |
-        max_connections = 500
-      resourcesPreset: "none"
-      persistence:
-        enabled: true
-        storageClass: weyma-shared
-        accessModes:
-          - ReadWriteOnce
-      readReplicas:
-        resourcesPreset: "none"
-      backup:
-        resourcesPreset: "none"
-      passwordUpdateJob:
-        resourcesPreset: "none"
-      volumePermissions:
-        resourcesPreset: "none"
-      metrics:
-        resourcesPreset: "none"
   redis:
     enabled: true
     architecture: standalone
@@ -85,11 +51,20 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: authentik-secret-key
+      - name: AUTHENTIK_POSTGRESQL__HOST
+        value: weyma-pgsql-rw.cloudnativepg.svc.cluster.local
+      - name: AUTHENTIK_POSTGRESQL__NAME
+        value: authentik
+      - name: AUTHENTIK_POSTGRESQL__USER
+        valueFrom:
+          secretKeyRef:
+            name: authentik-db-auth
+            key: username
       - name: AUTHENTIK_POSTGRESQL__PASSWORD
         valueFrom:
           secretKeyRef:
-            name: authentik-credentials
-            key: user-password
+            name: authentik-db-auth
+            key: password
   additionalObjects:
     - apiVersion: networking.k8s.io/v1
       kind: Ingress
@@ -153,3 +128,28 @@ authentik:
             remoteRef:
               key: authentik
               property: user-password
+    - apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata:
+        name: authentik-db-auth
+      spec:
+        data:
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: cloudnativepg
+            metadataPolicy: None
+            property: authentik_pw
+          secretKey: password
+        refreshInterval: 1h
+        secretStoreRef:
+          kind: ClusterSecretStore
+          name: weyma-vault
+        target:
+          template:
+            data:
+              username: authentik
+              password: "{{ .password }}"
+          creationPolicy: Owner
+          deletionPolicy: Retain
+          name: authentik-db-auth

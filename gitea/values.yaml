@@ -1,0 +1,162 @@
+gitea:
+  ingress:
+    enabled: true
+    hosts:
+      - host: gittest.dubyatp.xyz
+        paths:
+          - path: /
+    tls:
+      - secretName: cert-dubyatp-xyz
+        hosts:
+          - git.dubyatp.xyz
+  persistence:
+    enabled: true
+    create: true
+    mount: true
+    claimName: gitea-shared-storage
+    size: 50Gi
+    accessModes:
+      - ReadWriteMany
+    storageClass: weyma-shared
+  deployment:
+    env:
+      - name: GITEA__database__PASSWD
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: gitea-db-auth
+      - name: GITEA__mailer__PASSWD
+        valueFrom:
+          secretKeyRef:
+            key: smtp_apikey
+            name: gitea-secrets
+      - name: GITEA__security__INTERNAL_TOKEN
+        valueFrom:
+          secretKeyRef:
+            key: internal_token
+            name: gitea-secrets
+      - name: GITEA__security__SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            key: secret_key
+            name: gitea-secrets
+      - name: GITEA__oauth2__JWT_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: oauth2_jwt
+            name: gitea-secrets
+  gitea:
+    admin:
+      passwordMode: initialOnlyNoReset
+    config:
+      database:
+        DB_TYPE: postgres
+        HOST: weyma-pgsql-rw.cloudnativepg.svc.cluster.local
+        NAME: gitea
+        USER: gitea
+      server:
+        DISABLE_SSH: false
+        DOMAIN: git.dubyatp.xyz
+        ENABLE_PPROF: false
+        ROOT_URL: https://git.dubyatp.xyz
+        SSH_DOMAIN: git.dubyatp.xyz
+        SSH_LISTEN_PORT: 22
+        SSH_PORT: 22
+        START_SSH_SERVER: true
+        OFFLINE_MODE: false
+      service:
+        DISABLE_REGISTRATION: true
+      webhook:
+        ALLOWED_HOST_LIST: "drone.infra.dubyatp.xyz,argocd.infra.dubyatp.xyz,discord.com,10.0.0.0/8"
+      mailer:
+        ENABLED: true
+        FROM: gitea@em3532.williamtpeebles.com
+        PROTOCOL: smtps
+        SMTP_ADDR: smtp.sendgrid.net
+        SMTP_PORT: 465
+        USER: apikey
+      security:
+        INSTALL_LOCK: true
+  extraDeploy:
+    - apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cert-dubyatp-xyz
+        annotations:
+          replicator.v1.mittwald.de/replicate-from: "cert-manager/cert-dubyatp-xyz"
+          replicator.v1.mittwald.de/replicated-keys: "tls.crt,tls.key"
+      data:
+        tls.crt: ""
+        tls.key: ""
+    - apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata:
+        name: gitea-db-auth
+      spec:
+        data:
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: cloudnativepg
+            metadataPolicy: None
+            property: gitea_pw
+          secretKey: password
+        refreshInterval: 1h
+        secretStoreRef:
+          kind: ClusterSecretStore
+          name: weyma-vault
+        target:
+          creationPolicy: Owner
+          deletionPolicy: Retain
+          name: gitea-db-auth
+    - apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata:
+        name: gitea-secrets
+      spec:
+        data:
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: gitea
+            metadataPolicy: None
+            property: internal_token
+          secretKey: internal_token
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: gitea
+            metadataPolicy: None
+            property: oauth2_jwt
+          secretKey: oauth2_jwt
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: gitea
+            metadataPolicy: None
+            property: secret_key
+          secretKey: secret_key
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: gitea
+            metadataPolicy: None
+            property: smtp_apikey
+          secretKey: smtp_apikey
+        - remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            key: gitea
+            metadataPolicy: None
+            property: gitea_admin
+          secretKey: gitea_admin
+        refreshInterval: 1h
+        secretStoreRef:
+          kind: ClusterSecretStore
+          name: weyma-vault
+        target:
+          creationPolicy: Owner
+          deletionPolicy: Retain
+          name: gitea-secrets
+  postgresql-ha:
+    enabled: false

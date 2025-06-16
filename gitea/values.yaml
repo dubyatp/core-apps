@@ -79,6 +79,7 @@ gitea:
         INSTALL_LOCK: true
   extraDeploy:
     - apiVersion: traefik.io/v1alpha1
+      kind: IngressRoute
       metadata:
         name: gitea-ssh
       spec:

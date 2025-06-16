@@ -89,8 +89,8 @@ gitea:
           match: Host(`git-ssh.dubyatp.xyz`)
           priority: 10
           services:
-            - name: gitea-ssh
-              port: 22
+          - name: gitea-ssh
+            port: 22
     - apiVersion: v1
       kind: Secret
       metadata:

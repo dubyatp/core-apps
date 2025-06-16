@@ -87,7 +87,7 @@ gitea:
         - gitssh
         routes:
         - kind: Rule
-          match: Host(`git-ssh.dubyatp.xyz`)
+          match: Host(`gittest.dubyatp.xyz`)
           priority: 10
           services:
           - name: gitea-ssh

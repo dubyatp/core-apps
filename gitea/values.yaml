@@ -20,7 +20,7 @@ gitea:
       - ReadWriteMany
     storageClass: weyma-shared
   deployment:
-    labels:
+    annotations:
       backup.velero.io/backup-volumes: data
     env:
       - name: GITEA__database__PASSWD

@@ -51,6 +51,8 @@ gitea:
   gitea:
     admin:
       passwordMode: initialOnlyNoReset
+    podAnnotations:
+      backup.velero.io/backup-volumes: data
     config:
       database:
         DB_TYPE: postgres

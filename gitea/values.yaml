@@ -1,4 +1,5 @@
 gitea:
+  replicaCount: 3
   ingress:
     enabled: true
     hosts:

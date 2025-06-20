@@ -2,7 +2,7 @@ gitea:
   ingress:
     enabled: true
     hosts:
-      - host: gittest.dubyatp.xyz
+      - host: git.dubyatp.xyz
         paths:
           - path: /
     tls:

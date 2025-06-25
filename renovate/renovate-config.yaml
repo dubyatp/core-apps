@@ -5,5 +5,10 @@ metadata:
 data:
   config.json: |-
     {
-      "repositories": ["infrastructure/core-apps","infrastructure/db-operators","infrastructure/weyma-talos"]
+      "repositories": [
+        "infrastructure/core-apps",
+        "infrastructure/db-operators",
+        "infrastructure/weyma-talos",
+        "williamp/dubyatp.xyz"
+      ]
     }

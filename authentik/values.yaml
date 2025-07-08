@@ -62,29 +62,7 @@ authentik:
           secretKeyRef:
             name: authentik-db-auth
             key: password
-      - name: AUTHENTIK_RESULT_BACKEND__URL
-        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
-      - name: AUTHENTIK_CACHE__URL
-        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
-      - name: AUTHENTIK_CHANNEL__URL
-        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
-      - name: AUTHENTIK_BROKER__URL
-        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
   additionalObjects:
-    - apiVersion: hyperspike.io/v1
-      kind: Valkey
-      metadata:
-        name: authentik-kv
-      spec:
-        anonymousAuth: true
-        certIssuerType: ClusterIssuer
-        clusterDomain: cluster.local
-        clusterPreferredEndpointType: ip
-        nodes: 1
-        prometheus: false
-        replicas: 3
-        tls: false
-        volumePermissions: true
     - apiVersion: networking.k8s.io/v1
       kind: Ingress
       metadata:

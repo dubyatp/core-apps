@@ -1,4 +1,7 @@
 authentik:
+  authentik:
+    redis:
+      host: authentik-kv.authentik.svc.cluster.local
   server:
     replicas: 3
     volumeMounts:
@@ -29,8 +32,6 @@ authentik:
     enabled: false
   global:
     env:
-      - name: AUTHENTIK_REDIS__HOST
-        value: authentik-kv-headless.authentik.svc.cluster.local
       - name: AUTHENTIK_SECRET_KEY
         valueFrom:
           secretKeyRef:

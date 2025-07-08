@@ -63,13 +63,13 @@ authentik:
             name: authentik-db-auth
             key: password
       - name: AUTHENTIK_RESULT_BACKEND__URL
-        value: authentik-kv-headless.authentik.svc.cluster.local
+        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
       - name: AUTHENTIK_CACHE__URL
-        value: authentik-kv-headless.authentik.svc.cluster.local
+        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
       - name: AUTHENTIK_CHANNEL__URL
-        value: authentik-kv-headless.authentik.svc.cluster.local
+        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
       - name: AUTHENTIK_BROKER__URL
-        value: authentik-kv-headless.authentik.svc.cluster.local
+        value: redis+cluster://:@authentik-kv-headless.authentik.svc.cluster.local
   additionalObjects:
     - apiVersion: hyperspike.io/v1
       kind: Valkey

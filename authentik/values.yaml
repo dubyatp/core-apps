@@ -26,26 +26,11 @@ authentik:
         secret:
           secretName: cert-dubyatp-xyz
   redis:
-    enabled: true
-    architecture: standalone
-    auth:
-      enabled: false
-    master:
-      resourcesPreset: "none"
-      podAnnotations:
-        backup.velero.io/backup-volumes: redis-data
-    replica:
-      resourcesPreset: "none"
-    sentinel:
-      resourcesPreset: "none"
-    metrics:
-      resourcesPreset: "none"
-    volumePermissions:
-      resourcesPreset: "none"
-    sysctl:
-      resourcesPreset: "none"
+    enabled: false
   global:
     env:
+      - name: AUTHENTIK_REDIS__HOST
+        value: authentik-kv-headless.authentik.svc.cluster.local
       - name: AUTHENTIK_SECRET_KEY
         valueFrom:
           secretKeyRef:
@@ -63,6 +48,20 @@ authentik:
             name: authentik-db-auth
             key: password
   additionalObjects:
+    - apiVersion: hyperspike.io/v1
+      kind: Valkey
+      metadata:
+        name: authentik-kv
+      spec:
+        anonymousAuth: true
+        certIssuerType: ClusterIssuer
+        clusterDomain: cluster.local
+        clusterPreferredEndpointType: ip
+        nodes: 1
+        prometheus: false
+        replicas: 3
+        tls: false
+        volumePermissions: true
     - apiVersion: networking.k8s.io/v1
       kind: Ingress
       metadata:

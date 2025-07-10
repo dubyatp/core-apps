@@ -1,0 +1,12 @@
+{{ if .Values.configMapsManaged }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "wekan.fullname" $ }}-config
+data:
+{{- range $key := .Values.configMapEnv -}}
+{{ if $key.value }}
+{{ $key.name | indent 2 }}: {{ $key.value | toString | quote }}
+{{- end }}
+{{- end }}
+{{ end }}

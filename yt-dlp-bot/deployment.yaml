@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yt-dlp-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yt-dlp-bot
+  template:
+    metadata:
+      labels:
+        app: yt-dlp-bot
+    spec:
+      containers:
+      - name: yt-dlp-bot
+        image: git.dubyatp.xyz/williamp/yt-dlp-bot:2558a7e
+        env:
+          - name: OUT_PATH
+            value: /data/youtube-vids
+          - name: TEMP_PATH
+            value: /tmp/ytdlp-temp
+        envFrom:
+          - secretRef:
+              name: yt-dlp-discord-token
+        volumeMounts:
+          - name: youtube-vids
+            mountPath: /data/youtube-vids
+          - name: temp
+            mountPath: /tmp/ytdlp-temp
+        resources:
+          limits:
+            memory: "3Gi"
+            cpu: "1"
+      volumes:
+        - name: youtube-vids
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/youtube-vids
+        - name: temp
+          emptyDir:
+            medium: Memory
+  strategy:
+    type: Recreate

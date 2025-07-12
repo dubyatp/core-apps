@@ -9,6 +9,7 @@ data:
         "infrastructure/core-apps",
         "infrastructure/db-operators",
         "infrastructure/weyma-talos",
-        "williamp/dubyatp.xyz"
+        "williamp/dubyatp.xyz",
+        "williamp/yt-dlp-bot"
       ]
     }

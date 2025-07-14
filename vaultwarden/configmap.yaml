@@ -6,10 +6,10 @@ data:
   DATA_FOLDER: config
   DOMAIN: https://vaultwarden.dubyatp.xyz
   SIGNUPS_ALLOWED: "false"
-  SMTP_FROM: bitwarden@em3532.williamtpeebles.com
+  SMTP_FROM: vaultwarden@em924671.dubyatp.xyz
   SMTP_FROM_NAME: Vaultwarden
-  SMTP_HOST: smtp.sendgrid.net
-  SMTP_PORT: "587"
-  SMTP_SECURITY: starttls
+  SMTP_HOST: mail.smtp2go.com
+  SMTP_PORT: "2525"
+  SMTP_SECURITY: none
   SMTP_TIMEOUT: "15"
-  SMTP_USERNAME: apikey
+  SMTP_USERNAME: vaultwarden_dubyatp

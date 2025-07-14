@@ -31,7 +31,7 @@ gitea:
       - name: GITEA__mailer__PASSWD
         valueFrom:
           secretKeyRef:
-            key: smtp_apikey
+            key: smtp_smtp2go
             name: gitea-secrets
       - name: GITEA__security__INTERNAL_TOKEN
         valueFrom:
@@ -85,11 +85,11 @@ gitea:
         ALLOWED_HOST_LIST: "drone.infra.dubyatp.xyz,argocd.infra.dubyatp.xyz,discord.com,10.0.0.0/8"
       mailer:
         ENABLED: true
-        FROM: gitea@em3532.williamtpeebles.com
+        FROM: gitea@em924671.dubyatp.xyz
         PROTOCOL: smtps
-        SMTP_ADDR: smtp.sendgrid.net
+        SMTP_ADDR: mail.smtp2go.com
         SMTP_PORT: 465
-        USER: apikey
+        USER: gitea_dubyatp
       security:
         INSTALL_LOCK: true
   extraDeploy:
@@ -183,8 +183,8 @@ gitea:
             decodingStrategy: None
             key: gitea
             metadataPolicy: None
-            property: smtp_apikey
-          secretKey: smtp_apikey
+            property: smtp_smtp2go
+          secretKey: smtp_smtp2go
         - remoteRef:
             conversionStrategy: Default
             decodingStrategy: None

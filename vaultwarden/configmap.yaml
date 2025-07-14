@@ -10,6 +10,6 @@ data:
   SMTP_FROM_NAME: Vaultwarden
   SMTP_HOST: mail.smtp2go.com
   SMTP_PORT: "2525"
-  SMTP_SECURITY: none
+  SMTP_SECURITY: "off"
   SMTP_TIMEOUT: "15"
   SMTP_USERNAME: vaultwarden_dubyatp

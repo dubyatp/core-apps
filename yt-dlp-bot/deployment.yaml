@@ -13,25 +13,25 @@ spec:
         app: yt-dlp-bot
     spec:
       containers:
-      - name: yt-dlp-bot
-        image: git.dubyatp.xyz/williamp/yt-dlp-bot:3ffb2e4
-        env:
-          - name: OUT_PATH
-            value: /data/youtube-vids
-          - name: TEMP_PATH
-            value: /tmp/ytdlp-temp
-        envFrom:
-          - secretRef:
-              name: yt-dlp-discord-token
-        volumeMounts:
-          - name: youtube-vids
-            mountPath: /data/youtube-vids
-          - name: temp
-            mountPath: /tmp/ytdlp-temp
-        resources:
-          limits:
-            memory: "3Gi"
-            cpu: "1"
+        - name: yt-dlp-bot
+          image: 'git.dubyatp.xyz/williamp/yt-dlp-bot:'
+          env:
+            - name: OUT_PATH
+              value: /data/youtube-vids
+            - name: TEMP_PATH
+              value: /tmp/ytdlp-temp
+          envFrom:
+            - secretRef:
+                name: yt-dlp-discord-token
+          volumeMounts:
+            - name: youtube-vids
+              mountPath: /data/youtube-vids
+            - name: temp
+              mountPath: /tmp/ytdlp-temp
+          resources:
+            limits:
+              memory: "3Gi"
+              cpu: "1"
       volumes:
         - name: youtube-vids
           nfs:

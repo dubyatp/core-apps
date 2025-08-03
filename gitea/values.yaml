@@ -79,8 +79,8 @@ gitea:
         SSH_PORT: 22
         START_SSH_SERVER: true
         OFFLINE_MODE: false
-      #service:
-        #DISABLE_REGISTRATION: true
+      service:
+        DISABLE_REGISTRATION: false
       webhook:
         ALLOWED_HOST_LIST: "drone.infra.dubyatp.xyz,argocd.infra.dubyatp.xyz,discord.com,10.0.0.0/8"
       mailer:

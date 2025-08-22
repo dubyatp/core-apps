@@ -24,6 +24,7 @@ spec:
       containers:
       - name: runner
         image: gitea/act_runner:nightly
+        imagePullPolicy: Always
         command: ["sh", "-c", "while ! nc -z localhost 2376 </dev/null; do echo 'waiting for docker daemon...'; sleep 5; done; /sbin/tini -- run.sh"]
         env:
         - name: DOCKER_HOST

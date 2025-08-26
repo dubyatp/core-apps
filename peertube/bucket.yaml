@@ -1,0 +1,10 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: peertube-bucket
+  namespace: peertube
+spec:
+  generateBucketName: peertube
+  storageClassName: weyma-s3-bucket
+  additionalConfig:
+    maxSize: "100Gi"

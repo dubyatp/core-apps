@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: peertube
+  labels:
+    app.kubernetes.io/name: peertube
+spec:
+  rules:
+  - host: tube.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: peertube
+            port: 
+              number: 9000

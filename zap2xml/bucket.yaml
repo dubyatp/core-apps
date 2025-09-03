@@ -1,0 +1,10 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: zap2xml-bucket
+  namespace: zap2xml
+spec:
+  generateBucketName: zap2xml
+  storageClassName: weyma-s3-bucket
+  additionalConfig:
+    maxSize: "1Gi"

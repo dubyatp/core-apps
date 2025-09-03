@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: zap2xml-dtv-02191
+spec:
+  schedule: "0 */12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: zap2xml
+            image: git.dubyatp.xyz/williamp/kube-zap2xml:c075fec
+            envFrom:
+              - secretRef:
+                 name: zap2xml-bucket
+            env:
+              - name: LINEUP_ID
+                value: USA-DITV506-X
+              - name: POSTAL_CODE
+                value: "02191"
+              - name: TIMESPAN
+                value: "120"
+              - name: OUTPUT_FILE
+                value: /tmp/xmltv.xml
+              - name: PUBLIC_FILENAME
+                value: xmltv-directv-02191.xml
+              - name: S3_URL
+                value: s3://zap2xml-c134c9a7-a7a0-4113-997e-78e72ec3f576
+            volumeMounts:
+              - name: s3-config
+                mountPath: /root
+              - name: temp
+                mountPath: /tmp
+          restartPolicy: Never
+          volumes:
+            - name: s3-config
+              configMap:
+                name: zap2xml-s3config
+            - name: temp
+              emptyDir:
+               sizeLimit: 1Gi
+               medium: Memory

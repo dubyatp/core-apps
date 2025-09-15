@@ -1,0 +1,65 @@
+jellyfin:
+  deploymentStrategy:
+    type: Recreate
+  ingress:
+    enabled: true
+    hosts:
+      - host: jellyfin.dubyatp.xyz
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: cert-dubyatp.xyz
+        hosts:
+          - jellyfin.dubyatp.xyz
+  persistence:
+    media:
+      enabled: false
+  volumes:
+    - name: tv-shows
+      nfs:
+        server: 10.105.15.20
+        path: /mnt/hdd-pool/tv-shows
+    - name: movies
+      nfs:
+        server: 10.105.15.20
+        path: /mnt/hdd-pool/movies
+    - name: dvr
+      nfs:
+        server: 10.105.15.20
+        path: /mnt/hdd-pool/DVR
+    - name: youtube-vids
+      nfs:
+        server: 10.105.15.20
+        path: /mnt/hdd-pool/youtube-vids
+    - name: transcode-temp
+      emptyDir:
+        sizeLimit: 8Gi
+        medium: Memory
+    - name: dev-dri
+      hostPath:
+        path: /dev/dri
+  volumeMounts:
+    - name: tv-shows
+      mountPath: /mnt/tv-shows
+    - name: movies
+      mountPath: /mnt/movies
+    - name: dvr
+      mountPath: /mnt/dvr
+    - name: youtube-vids
+      mountPath: /mnt/youtube-vids
+    - name: transcode-temp
+      mountPath: /tmp/transcode
+    - name: dev-dri
+      mountPath: /dev/dri
+  securityContext:
+    privileged: true
+  nodeSelector:
+    kubernetes.io/hostname: weyma-talos-testw04
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: extensions.talos.dev/i915
+              operator: Exists

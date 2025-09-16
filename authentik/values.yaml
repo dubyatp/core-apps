@@ -68,6 +68,8 @@ authentik:
         value: mail.smtp2go.com
       - name: AUTHENTIK_EMAIL__USE_TLS
         value: "true"
+      - name: AUTHENTIK_EMAIL__USERNAME
+        value: authentik_dubyatp
       - name: AUTHENTIK_EMAIL__PASSWORD
         valueFrom:
           secretKeyRef:

@@ -62,6 +62,19 @@ authentik:
           secretKeyRef:
             name: authentik-db-auth
             key: password
+      - name: AUTHENTIK_EMAIL__FROM
+        value: authentik_dubyatp@em924671.dubyatp.xyz
+      - name: AUTHENTIK_EMAIL__HOST
+        value: mail.smtp2go.com
+      - name: AUTHENTIK_EMAIL__PORT
+        value: "2525"
+      - name: AUTHENTIK_EMAIL__USE_TLS
+        value: "true"
+      - name: AUTHENTIK_EMAIL__PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-credentials
+            key: smtp-password
   additionalObjects:
     - apiVersion: networking.k8s.io/v1
       kind: Ingress
@@ -125,6 +138,10 @@ authentik:
             remoteRef:
               key: authentik
               property: user-password
+          - secretKey: smtp-password
+            remoteRef:
+              key: authentik
+              property: smtp-password
     - apiVersion: external-secrets.io/v1
       kind: ExternalSecret
       metadata:

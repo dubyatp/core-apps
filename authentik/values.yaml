@@ -75,6 +75,8 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: smtp-password
+      - name: AUTHENTIK_EMAIL__TIMEOUT
+        value: "30"
   additionalObjects:
     - apiVersion: networking.k8s.io/v1
       kind: Ingress

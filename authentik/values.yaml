@@ -66,8 +66,6 @@ authentik:
         value: authentik_dubyatp@em924671.dubyatp.xyz
       - name: AUTHENTIK_EMAIL__HOST
         value: mail.smtp2go.com
-      - name: AUTHENTIK_EMAIL__PORT
-        value: "2525"
       - name: AUTHENTIK_EMAIL__USE_TLS
         value: "true"
       - name: AUTHENTIK_EMAIL__PASSWORD

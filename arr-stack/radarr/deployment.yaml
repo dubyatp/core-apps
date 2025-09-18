@@ -16,6 +16,8 @@ spec:
       - name: radarr
         image: linuxserver/radarr:version-5.27.5.10198
         volumeMounts:
+          - name: config
+            mountPath: /config
           - name: downloads
             mountPath: /mnt/Downloads
           - name: movies

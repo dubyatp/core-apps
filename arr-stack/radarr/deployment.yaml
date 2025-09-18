@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: linuxserver/radarr:version-5.27.5.10198
+        volumeMounts:
+          - name: downloads
+            mountPath: /mnt/Downloads
+          - name: movies
+            mountPath: /mnt/movies
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+          requests:
+            memory: "512Mi"
+            cpu: "0.5"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: radarr-config
+        - name: movies
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/movies
+        - name: downloads
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/syncthing-downloads

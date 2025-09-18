@@ -1,0 +1,28 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: ssh-keys
+spec:
+  data:
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: deluge-ssh
+      metadataPolicy: None
+      property: private
+    secretKey: id_ed25519
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: deluge-ssh
+      metadataPolicy: None
+      property: public
+    secretKey: id_ed25519.pub
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: weyma-vault
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ssh-keys

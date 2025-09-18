@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deluge-tunnel
+spec:
+  selector:
+    matchLabels:
+      app: deluge-tunnel
+  template:
+    metadata:
+      labels:
+        app: deluge-tunnel
+    spec:
+      containers:
+      - name: deluge-tunnel
+        image: kroniak/ssh-client:3.21
+        command: ["/bin/sh", "-c", "ssh -o StrictHostKeyChecking=no weyma-talos@45.152.211.243 -p 2222 -L 0.0.0.0:58846:127.0.0.1:58846 -L 0.0.0.0:8112:127.0.0.1:8112 -N"]
+        volumeMounts:
+          - name: ssh-keys
+            mountPath: /root/.ssh
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+      volumes:
+        - name: ssh-keys
+          secret:
+            defaultMode: 0400
+            secretName: ssh-keys
+

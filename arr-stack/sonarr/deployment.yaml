@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: linuxserver/sonarr:4.0.15
+        volumeMounts:
+          - name: config
+            mountPath: /config
+          - name: downloads
+            mountPath: /mnt/Downloads
+          - name: tv-shows
+            mountPath: /mnt/tv-shows
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+          requests:
+            memory: "512Mi"
+            cpu: "0.5"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: sonarr-config
+        - name: tv-shows
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/tv-shows
+        - name: downloads
+          nfs:
+            server: 10.105.15.20
+            path: /mnt/hdd-pool/syncthing-downloads

@@ -13,6 +13,8 @@ jellyfin:
         hosts:
           - jellyfin.dubyatp.xyz
   persistence:
+    config:
+      size: 25Gi
     media:
       enabled: false
   volumes:

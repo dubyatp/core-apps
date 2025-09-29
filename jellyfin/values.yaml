@@ -54,6 +54,8 @@ jellyfin:
       mountPath: /tmp/transcode
     - name: dev-dri
       mountPath: /dev/dri
+  podAnnotations:
+    backup.velero.io/backup-volumes: config
   securityContext:
     privileged: true
   nodeSelector:

@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: prowlarr
+      annotations:
+        backup.velero.io/backup-volumes: config
     spec:
       containers:
       - name: prowlarr

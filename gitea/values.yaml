@@ -59,16 +59,6 @@ gitea:
         HOST: weyma-pgsql-rw.cloudnativepg.svc.cluster.local
         NAME: gitea
         USER: gitea
-      queue:
-        TYPE: redis
-        CONN_STR: redis+cluster://:@gitea-kv-headless.gitea.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
-      session:
-        PROVIDER: redis
-        PROVIDER_CONFIG: redis+cluster://:@gitea-kv-headless.gitea.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
-      cache:
-        ENABLED: 'true'
-        ADAPTER: redis
-        HOST: redis+cluster://:@gitea-kv-headless.gitea.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
       server:
         DISABLE_SSH: false
         DOMAIN: git.dubyatp.xyz
@@ -93,20 +83,6 @@ gitea:
       security:
         INSTALL_LOCK: true
   extraDeploy:
-    - apiVersion: hyperspike.io/v1
-      kind: Valkey
-      metadata:
-        name: gitea-kv
-      spec:
-        anonymousAuth: true
-        certIssuerType: ClusterIssuer
-        clusterDomain: cluster.local
-        clusterPreferredEndpointType: ip
-        nodes: 1
-        prometheus: false
-        replicas: 3
-        tls: false
-        volumePermissions: true
     - apiVersion: traefik.io/v1alpha1
       kind: IngressRouteTCP
       metadata:
@@ -203,4 +179,4 @@ gitea:
   postgresql-ha:
     enabled: false
   valkey-cluster:
-    enabled: false
+    enabled: true

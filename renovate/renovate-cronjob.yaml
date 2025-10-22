@@ -27,6 +27,11 @@ spec:
                     secretKeyRef:
                       key: github-com-pat
                       name: renovate-github-com-token
+                - name: RENOVATE_GIT_PRIVATE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: ssh-key
+                      name: renovate-ssh-key
                 - name: RENOVATE_AUTODISCOVER
                   value: 'false'
                 - name: RENOVATE_BASE_DIR

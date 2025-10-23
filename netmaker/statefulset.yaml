@@ -48,23 +48,36 @@ spec:
         - name: DATABASE
           value: postgres
         - name: SQL_HOST
-          value: "DB_NAME-postgresql" 
+          value: "weyma-pgsql-rw.cloudnativepg.svc.cluster.local" 
         - name: SQL_PORT
           value: "5432"
         - name: SQL_DB
-          value: "postgres"
+          value: "netmaker"
         - name: SQL_USER
-          value: "postgres"
+          value: "netmaker"
         - name: SQL_PASS
-          value: "DB_PASS"
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: postgres-pw
         - name: MASTER_KEY
-          value: REPLACE_MASTER_KEY
+          valueFrom:
+            secretKeyRef:
+              key: master_key
+              name: netmaker-secrets
+        - name: MQ_USERNAME
+          value: netmaker
+        - name: MQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mq_password
+              name: netmaker-secrets
         - name: CORS_ALLOWED_ORIGIN
           value: '*'
         - name: SERVER_BROKER_ENDPOINT
           value: "ws://mq:1883"
         - name: BROKER_ENDPOINT
-          value: "wss://broker.NETMAKER_BASE_DOMAIN"
+          value: "wss://broker.netmaker-test.infra.dubyatp.xyz"
         - name: PLATFORM
           value: "Kubernetes"
         - name: VERBOSITY
@@ -101,7 +114,6 @@ spec:
             add:
             - NET_ADMIN
             - NET_RAW
-            - SYS_MODULE
         volumeMounts:
         - mountPath: /etc/netmaker/
           name: shared-certs

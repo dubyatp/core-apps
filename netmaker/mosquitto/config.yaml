@@ -8,8 +8,27 @@ data:
     listener 1883
     protocol websockets
     allow_anonymous false
-    plugin /usr/lib/mosquitto_dynamic_security.so
-    plugin_opt_config_file /mosquitto/data/dynamic-security.json
+    password_file /mosquitto/temp/password.txt
+  wait.sh: |
+    #!/bin/ash
+
+    encrypt_password() {
+      echo "${MQ_USERNAME}:${MQ_PASSWORD}" > /mosquitto/temp/password.txt
+      mosquitto_passwd -U /mosquitto/temp/password.txt
+      chmod 0700 /mosquitto/temp/password.txt
+    }
+
+    main(){
+
+     encrypt_password
+     echo "Starting MQ..."
+     # Run the main container command.
+     /docker-entrypoint.sh
+     /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+
+    }
+
+    main "${@}"
 kind: ConfigMap
 metadata:
   labels:

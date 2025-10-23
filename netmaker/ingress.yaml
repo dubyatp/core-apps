@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: netmaker-api-ingress
+spec:
+  rules:
+  - host: api.netmaker-test.infra.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: netmaker-rest
+            port: 
+              number: 8081

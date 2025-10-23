@@ -20,6 +20,7 @@ spec:
       containers:
       - image: eclipse-mosquitto:2.0.22-openssl
         imagePullPolicy: IfNotPresent
+        command: ["/mosquitto/config/wait.sh"]
         livenessProbe:
           failureThreshold: 3
           periodSeconds: 10
@@ -28,6 +29,14 @@ spec:
             port: 8883
           timeoutSeconds: 1
         name: mosquitto
+        env:
+          - name: MQ_USERNAME
+            value: netmaker
+          - name: MQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mq_password
+                name: netmaker-secrets
         ports:
         - containerPort: 1883        
           name: mqtt
@@ -53,18 +62,22 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /mosquitto/config/mosquitto.conf
+        - mountPath: /mosquitto/config
           name: mosquitto-config
-          subPath: mosquitto.conf
         - mountPath: /mosquitto/certs
           name: shared-certs
+        - mountPath: /mosquitto/temp
+          name: mosquitto-temp
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       volumes:
       - configMap:
           name: mosquitto-config
+          defaultMode: 0755
         name: mosquitto-config
+      - name: mosquitto-temp
+        emptyDir:
       - name: shared-certs
         persistentVolumeClaim:
           claimName: shared-certs-pvc

@@ -1,0 +1,21 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-pw
+spec:
+  data:
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: cloudnativepg
+      metadataPolicy: None
+      property: netmaker_pw
+    secretKey: password
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: weyma-vault
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: postgres-pw

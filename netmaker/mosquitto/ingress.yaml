@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mosquitto-ingress
+  labels:
+    app.kubernetes.io/name: mosquitto-ingress
+spec:
+  rules:
+  - host: broker.netmaker-test.infra.dubyatp.xyz
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: mq
+            port: 
+              number: 8883

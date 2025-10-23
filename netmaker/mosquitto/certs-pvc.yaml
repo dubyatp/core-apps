@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-certs-pvc
+spec:
+  storageClassName: weyma-shared
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi

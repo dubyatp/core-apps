@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mq
+  namespace: netmaker
+spec:
+  ports:
+  - name: mqtt
+    port: 1883
+    protocol: TCP
+    targetPort: mqtt
+  - name: mqtt2
+    port: 8883
+    protocol: TCP
+    targetPort: mqtt2    
+  selector:
+    app.kubernetes.io/instance: mosquitto
+    app.kubernetes.io/name: mosquitto
+  sessionAffinity: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'netmaker-mqtt'
+spec:
+  externalTrafficPolicy: Cluster
+  type: NodePort
+  selector:
+    app.kubernetes.io/instance: mosquitto
+    app.kubernetes.io/name: mosquitto
+  ports:
+  - port: 31883
+    nodePort: 31883
+    protocol: TCP
+    targetPort: 8883
+    name: nm-mqtt

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: netmaker-config 
+data:
+  SERVER_NAME: netmaker.infra.dubyatp.xyz
+  SERVER_API_CONN_STRING: api.netmaker.infra.dubyatp.xyz:443
+  SERVER_HTTP_HOST: api.netmaker.infra.dubyatp.xyz
+  API_PORT: "8081"
+  WG_QUICK_USERSPACE_IMPLEMENTATION: wireguard-go
+  DNS_MODE: "off"
+  DISPLAY_KEYS: "on"
+  DATABASE: postgres
+  SQL_HOST: "weyma-pgsql-rw.cloudnativepg.svc.cluster.local"
+  SQL_PORT: "5432"
+  SQL_DB: "netmaker"
+  SQL_USER: "netmaker"
+  MQ_USERNAME: netmaker
+  CORS_ALLOWED_ORIGIN: '*'
+  SERVER_BROKER_ENDPOINT: "ws://mq:1883"
+  BROKER_ENDPOINT: "wss://broker.netmaker.infra.dubyatp.xyz"
+  PLATFORM: "Kubernetes"
+  VERBOSITY: "3"
+  K8s: "true"
+  CACHING_ENABLED: "false"

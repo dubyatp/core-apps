@@ -31,30 +31,6 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        - name: SERVER_NAME
-          value: broker.netmaker-test.infra.dubyatp.xyz
-        - name: SERVER_API_CONN_STRING
-          value: api.netmaker-test.infra.dubyatp.xyz:443
-        - name: SERVER_HTTP_HOST
-          value: api.netmaker-test.infra.dubyatp.xyz
-        - name: API_PORT
-          value: "8081"
-        - name: WG_QUICK_USERSPACE_IMPLEMENTATION
-          value: wireguard-go
-        - name: DNS_MODE
-          value: "off"
-        - name: DISPLAY_KEYS
-          value: "on"
-        - name: DATABASE
-          value: postgres
-        - name: SQL_HOST
-          value: "weyma-pgsql-rw.cloudnativepg.svc.cluster.local" 
-        - name: SQL_PORT
-          value: "5432"
-        - name: SQL_DB
-          value: "netmaker"
-        - name: SQL_USER
-          value: "netmaker"
         - name: SQL_PASS
           valueFrom:
             secretKeyRef:
@@ -65,23 +41,19 @@ spec:
             secretKeyRef:
               key: master_key
               name: netmaker-secrets
-        - name: MQ_USERNAME
-          value: netmaker
         - name: MQ_PASSWORD
           valueFrom:
             secretKeyRef:
               key: mq_password
               name: netmaker-secrets
-        - name: CORS_ALLOWED_ORIGIN
-          value: '*'
-        - name: SERVER_BROKER_ENDPOINT
-          value: "ws://mq:1883"
-        - name: BROKER_ENDPOINT
-          value: "wss://broker.netmaker-test.infra.dubyatp.xyz"
-        - name: PLATFORM
-          value: "Kubernetes"
-        - name: VERBOSITY
-          value: "3"
+        - name: TURN_SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: turn_password
+              name: netmaker-secrets
+        envFrom:
+          - configMapRef:
+              name: netmaker-config
         image: gravitl/netmaker:v1.1.0
         imagePullPolicy: Always
         name: netmaker

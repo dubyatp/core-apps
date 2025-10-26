@@ -4,7 +4,7 @@ metadata:
   name: netmaker-ui-ingress
 spec:
   rules:
-  - host: dashboard.netmaker-test.infra.dubyatp.xyz
+  - host: dashboard.netmaker.infra.dubyatp.xyz
     http:
       paths:
       - pathType: Prefix

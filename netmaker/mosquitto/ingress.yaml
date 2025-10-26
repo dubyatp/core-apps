@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: mosquitto-ingress
 spec:
   rules:
-  - host: broker.netmaker-test.infra.dubyatp.xyz
+  - host: broker.netmaker.infra.dubyatp.xyz
     http:
       paths:
       - pathType: Prefix

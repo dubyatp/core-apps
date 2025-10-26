@@ -4,7 +4,7 @@ metadata:
   name: netmaker-api-ingress
 spec:
   rules:
-  - host: api.netmaker-test.infra.dubyatp.xyz
+  - host: api.netmaker.infra.dubyatp.xyz
     http:
       paths:
       - pathType: Prefix

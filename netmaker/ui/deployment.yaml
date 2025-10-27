@@ -17,5 +17,5 @@ spec:
         image: gravitl/netmaker-ui:v1.1.0
         env:
         - name: BACKEND_URL
-          value: 'https://api.netmaker-test.infra.dubyatp.xyz'
+          value: 'https://api.netmaker.infra.dubyatp.xyz'
       terminationGracePeriodSeconds: 15

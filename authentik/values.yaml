@@ -52,7 +52,7 @@ authentik:
             name: authentik-credentials
             key: authentik-secret-key
       - name: AUTHENTIK_POSTGRESQL__HOST
-        value: pooler-weyma-rw.cloudnativepg.svc.cluster.local
+        value: weyma-pgsql-rw.cloudnativepg.svc.cluster.local
       - name: AUTHENTIK_POSTGRESQL__NAME
         value: authentik
       - name: AUTHENTIK_POSTGRESQL__USER

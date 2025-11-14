@@ -56,7 +56,7 @@ gitea:
     config:
       database:
         DB_TYPE: postgres
-        HOST: weyma-pgsql-rw.cloudnativepg.svc.cluster.local
+        HOST: pooler-weyma-rw.cloudnativepg.svc.cluster.local
         NAME: gitea
         USER: gitea
       server:

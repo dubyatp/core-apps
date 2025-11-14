@@ -11,7 +11,7 @@ data:
   DNS_MODE: "off"
   DISPLAY_KEYS: "on"
   DATABASE: postgres
-  SQL_HOST: "weyma-pgsql-rw.cloudnativepg.svc.cluster.local"
+  SQL_HOST: "pooler-weyma-rw.cloudnativepg.svc.cluster.local"
   SQL_PORT: "5432"
   SQL_DB: "netmaker"
   SQL_USER: "netmaker"

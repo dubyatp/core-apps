@@ -170,7 +170,7 @@ grafana:
     httpGet:
       path: /api/health
       port: 3000
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 10
   securityContext:
     fsGroup: 472

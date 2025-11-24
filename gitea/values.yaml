@@ -180,3 +180,5 @@ gitea:
     enabled: false
   valkey-cluster:
     enabled: true
+    valkey:
+      resourcesPreset: "small"

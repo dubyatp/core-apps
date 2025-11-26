@@ -41,6 +41,10 @@ jellyfin:
     - name: dev-dri
       hostPath:
         path: /dev/dri
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
   volumeMounts:
     - name: tv-shows
       mountPath: /mnt/tv-shows

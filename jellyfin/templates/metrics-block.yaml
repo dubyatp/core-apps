@@ -1,0 +1,33 @@
+{{- if and (.Values.jellyfin.metrics.enabled) (.Values.jellyfin.ingress.enabled) -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy-svc
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: dummy-svc
+  ports:
+    - protocol: TCP
+      port: 6767
+      targetPort: 6767
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: block-metrics
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+  - host: {{ (index .Values.jellyfin.ingress.hosts 0).host }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/metrics"
+        backend:
+          service:
+            name: dummy-svc
+            port: 
+              number: 6767
+{{- end }}

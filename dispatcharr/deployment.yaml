@@ -13,6 +13,15 @@ spec:
       annotations:
         backup.velero.io/backup-volumes: data
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: extensions.talos.dev/i915
+                operator: Exists
+      nodeSelector:
+        kubernetes.io/hostname: weyma-talos-testw04
       containers:
       - name: dispatcharr
         image: ghcr.io/dispatcharr/dispatcharr:0.8.0-amd64
@@ -25,6 +34,10 @@ spec:
             value: redis://localhost:6379/0
           - name: DISPATCHARR_LOG_LEVEL
             value: info
+          - name: UWSGI_NICE_LEVEL
+            value: "-5"
+          - name: CELERY_NICE_LEVEL
+            value: "-5"
         volumeMounts:
           - name: dispatcharr-data
             mountPath: /data
@@ -37,6 +50,8 @@ spec:
           requests:
             memory: "256Mi"
             cpu: "500m"
+        securityContext:
+          privileged: true
       volumes:
         - name: dispatcharr-data
           persistentVolumeClaim:

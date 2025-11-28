@@ -28,6 +28,8 @@ spec:
         volumeMounts:
           - name: dispatcharr-data
             mountPath: /data
+          - name: dev-dri
+            mountPath: /dev/dri
         resources:
           limits:
             memory: "3Gi"
@@ -39,3 +41,6 @@ spec:
         - name: dispatcharr-data
           persistentVolumeClaim:
             claimName: dispatcharr
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri

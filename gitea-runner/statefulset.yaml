@@ -37,8 +37,8 @@ spec:
           - name: GITEA_RUNNER_REGISTRATION_TOKEN
             valueFrom:
               secretKeyRef:
-                key: token
-                name: runner-secret
+                key: registration-token
+                name: gitea-runner-token
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:

@@ -62,7 +62,7 @@ spec:
       - name: buildkitd
         args:
           - --addr
-          - tcp://0.0.0.0:1234
+          - tcp://127.0.0.20:1234
         image: moby/buildkit:v0.27.1
         imagePullPolicy: Always
         ports:

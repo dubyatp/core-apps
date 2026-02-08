@@ -60,6 +60,7 @@ spec:
           - mountPath: /certs
             name: docker-certs
       dnsPolicy: ClusterFirst
+      hostNetwork: true
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30

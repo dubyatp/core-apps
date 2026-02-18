@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: attic
-        image: ghcr.io/zhaofengli/attic:ff8a897d1f4408ebbf4d45fa9049c06b3e1e3f4e
+        image: ghcr.io/zhaofengli/attic:c4ffb5e86e928572e867bd3f81545293313e0a08
         envFrom:
         - secretRef:
             name: attic-secret

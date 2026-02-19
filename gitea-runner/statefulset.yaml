@@ -16,24 +16,35 @@ spec:
       labels:
         app: act-runner
     spec:
-      containers:
-      - name: runner
+      initContainers:
+      - name: sysctl
+        image: busybox
+        securityContext:
+          privileged: true
         command:
           - sh
           - -c
-          - while ! nc -z localhost 2376 </dev/null; do echo 'waiting for docker daemon...';
-            sleep 5; done; /sbin/tini -- run.sh
-        image: gitea/act_runner:nightly
+          - echo 28633 > /proc/sys/user/max_user_namespaces
+      - name: chown-data
+        image: busybox
+        securityContext:
+          runAsUser: 0
+        command:
+          - sh
+          - -c
+          - chown -R 1000:1000 /data
+        volumeMounts:
+        - name: runner-data
+          mountPath: /data
+      containers:
+      - name: runner
+        image: gitea/act_runner:nightly-dind-rootless
         imagePullPolicy: Always
         env:
           - name: CONFIG_FILE
             value: /config/config.yaml
           - name: DOCKER_HOST
-            value: tcp://localhost:2376
-          - name: DOCKER_CERT_PATH
-            value: /certs/client
-          - name: DOCKER_TLS_VERIFY
-            value: "1"
+            value: unix:///run/user/1000/docker.sock
           - name: GITEA_INSTANCE_URL
             value: https://git.dubyatp.xyz
           - name: GITEA_RUNNER_REGISTRATION_TOKEN
@@ -41,34 +52,20 @@ spec:
               secretKeyRef:
                 key: registration-token
                 name: gitea-runner-token
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - name: runner-config
-          mountPath: /config
-        - name: docker-certs
-          mountPath: /certs
-        - name: runner-data
-          mountPath: /data
-      - name: daemon
-        env:
-          - name: DOCKER_TLS_CERTDIR
-            value: /certs
-        image: docker:23.0.6-dind
-        imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-          - mountPath: /certs
-            name: docker-certs
+        - name: runner-config
+          mountPath: /config
+        - name: runner-data
+          mountPath: /data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: docker-certs
         - name: runner-config
           configMap:
             name: runner-config

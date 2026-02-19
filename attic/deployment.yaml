@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: attic
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: attic
@@ -17,13 +18,20 @@ spec:
         envFrom:
         - secretRef:
             name: attic-secret
+        - secretRef:
+            name: attic-bucket
         volumeMounts:
         - name: attic-pvc
-          mountPath: /var/empty
+          mountPath: /var/empty/
         resources:
           limits:
             memory: "2Gi"
             cpu: "500m"
+      - name: multitool
+        image: wbitt/network-multitool
+        volumeMounts:
+        - name: attic-pvc
+          mountPath: /var/empty/
       volumes:
       - name: attic-pvc
         persistentVolumeClaim:

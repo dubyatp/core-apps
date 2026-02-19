@@ -1,0 +1,10 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: attic-bucket
+  namespace: attic
+spec:
+  additionalConfig:
+    maxSize: 100Gi
+  bucketName: attic-bucket
+  storageClassName: weyma-s3-bucket

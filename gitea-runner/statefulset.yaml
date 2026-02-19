@@ -61,11 +61,17 @@ spec:
           mountPath: /config
         - name: runner-data
           mountPath: /data
+        - name: runner-scratch
+          mountPath: /scratch
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
       volumes:
+        - name: runner-scratch
+          emptyDir:
+            medium: Memory
+            sizeLimit: 5Gi
         - name: runner-config
           configMap:
             name: runner-config

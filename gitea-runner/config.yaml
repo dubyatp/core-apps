@@ -29,8 +29,9 @@ data:
       network: "host"
       privileged: false
       options:
-      workdir_parent:
-      valid_volumes: []
+      workdir_parent: /scratch
+      valid_volumes:
+        - /scratch/**
       docker_host: ""
       force_pull: true
       force_rebuild: false

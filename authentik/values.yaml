@@ -1,6 +1,6 @@
 authentik:
   server:
-    replicas: 3
+    replicas: 1
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true
@@ -45,7 +45,7 @@ authentik:
         path: "{{ .Values.authentik.web.path }}-/health/live/"
         port: http
   worker:
-    replicas: 3
+    replicas: 1
     volumeMounts:
       - name: cert-dubyatp-xyz
         readOnly: true

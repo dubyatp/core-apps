@@ -61,6 +61,8 @@ authentik:
           secretKeyRef:
             name: authentik-credentials
             key: authentik-secret-key
+      - name: AUTHENTIK_POSTGRESQL__DISABLE_SERVER_SIDE_CURSORS
+        value: "true"
       - name: AUTHENTIK_POSTGRESQL__HOST
         value: pooler-weyma-rw-authentik.cloudnativepg.svc.cluster.local
       - name: AUTHENTIK_POSTGRESQL__NAME

@@ -15,35 +15,6 @@ authentik:
       service:
         labels:
           metrics_enabled: "true"
-    livenessProbe:
-      failureThreshold: 3      
-      initialDelaySeconds: 5
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 10       
-      httpGet:
-        path: "{{ .Values.authentik.web.path }}-/health/live/"
-        port: http
-
-    readinessProbe:
-      failureThreshold: 3      
-      initialDelaySeconds: 5
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 10       
-      httpGet:
-        path: "{{ .Values.authentik.web.path }}-/health/ready/"
-        port: http
-
-    startupProbe:
-      failureThreshold: 60     
-      initialDelaySeconds: 5
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 10       
-      httpGet:
-        path: "{{ .Values.authentik.web.path }}-/health/live/"
-        port: http
   worker:
     replicas: 3
     volumeMounts:

@@ -19,6 +19,8 @@ spec:
         - secretRef:
             name: attic-secret
         - secretRef:
+            name: attic-db-auth
+        - secretRef:
             name: attic-bucket
         volumeMounts:
         - name: attic-pvc

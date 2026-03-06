@@ -1,0 +1,24 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: attic-db-auth
+spec:
+  data:
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: cloudnativepg
+      metadataPolicy: None
+      property: attic_pw
+    secretKey: password
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: weyma-vault
+  target:
+    template:
+      data:
+        ATTIC_SERVER_DATABASE_URL: "postgres://attic:{{ .password }}@pooler-weyma-rw.cloudnativepg.svc.cluster.local/attic"
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: attic-db-auth

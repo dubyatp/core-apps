@@ -14,12 +14,14 @@ spec:
     spec:
       containers:
         - name: yt-dlp-bot
-          image: 'git.dubyatp.xyz/williamp/yt-dlp-bot:2c99fbf'
+          image: 'git.dubyatp.xyz/williamp/yt-dlp-bot:refactor-test-f30686f'
           env:
             - name: OUT_PATH
               value: /data/youtube-vids
             - name: TEMP_PATH
               value: /tmp/ytdlp-temp
+            - name: LOADING_EMOJI
+              value: "<a:loading:1479485735076761848>"
           envFrom:
             - secretRef:
                 name: yt-dlp-discord-token

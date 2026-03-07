@@ -28,7 +28,7 @@ data:
     container:
       network: "host"
       privileged: false
-      options:
+      options: "--dns 10.112.0.10"
       workdir_parent: /scratch
       valid_volumes:
         - /scratch/**

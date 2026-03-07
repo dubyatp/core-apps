@@ -26,9 +26,9 @@ data:
       port: 0
       external_server: ""
     container:
-      network: "bridge"
+      network: "host"
       privileged: false
-      options: "--dns 10.112.0.10"
+      options: ""
       workdir_parent: /scratch
       valid_volumes:
         - /scratch/**

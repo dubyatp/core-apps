@@ -42,7 +42,7 @@ spec:
         imagePullPolicy: Always
         env:
           - name: DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS
-            value: "--dns 10.112.0.10"
+            value: "--net=slirp4netns --copy-up=/etc"
           - name: CONFIG_FILE
             value: /config/config.yaml
           - name: DOCKER_HOST

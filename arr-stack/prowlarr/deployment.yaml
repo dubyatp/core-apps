@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: prowlarr
-        image: linuxserver/prowlarr:version-2.0.5.5160
+        image: linuxserver/prowlarr:version-2.3.0.5236
         volumeMounts:
           - name: config
             mountPath: /config

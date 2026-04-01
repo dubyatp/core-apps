@@ -26,10 +26,6 @@ jellyfin:
       nfs:
         server: 10.105.15.20
         path: /mnt/hdd-pool/movies
-    - name: dvr
-      nfs:
-        server: 10.105.15.20
-        path: /mnt/hdd-pool/DVR
     - name: youtube-vids
       nfs:
         server: 10.105.15.20
@@ -50,8 +46,6 @@ jellyfin:
       mountPath: /mnt/tv-shows
     - name: movies
       mountPath: /mnt/movies
-    - name: dvr
-      mountPath: /mnt/dvr
     - name: youtube-vids
       mountPath: /mnt/youtube-vids
     - name: transcode-temp

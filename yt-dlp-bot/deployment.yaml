@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: yt-dlp-bot
-          image: 'git.dubyatp.xyz/williamp/yt-dlp-bot:5465bd4'
+          image: 'git.dubyatp.xyz/williamp/yt-dlp-bot:fb0746e'
           env:
             - name: OUT_PATH
               value: /data/youtube-vids

@@ -14,7 +14,7 @@ spec:
       containers:
       - name: deluge-tunnel
         image: kroniak/ssh-client:3.21
-        command: ["/bin/sh", "-c", "ssh -o StrictHostKeyChecking=no weyma-talos@45.152.211.243 -p 2222 -L 0.0.0.0:58846:127.0.0.1:58846 -L 0.0.0.0:8112:127.0.0.1:8112 -N"]
+        command: ["/bin/sh", "-c", "ssh -o StrictHostKeyChecking=no weyma-talos@184.107.106.14 -L 0.0.0.0:58846:127.0.0.1:58846 -L 0.0.0.0:8112:127.0.0.1:8112 -N"]
         volumeMounts:
           - name: ssh-keys
             mountPath: /root/.ssh

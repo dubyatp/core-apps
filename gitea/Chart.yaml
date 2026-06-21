@@ -24,5 +24,5 @@ appVersion: "1.0"
 
 dependencies:
 - name: gitea
-  version: 12.6.2
+  version: 12.6.3
   repository: https://weyma-s3.infra.dubyatp.xyz/helm-bucket-ea34bc44-ef19-480d-a16a-1e583991f123/charts/

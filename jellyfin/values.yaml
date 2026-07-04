@@ -1,17 +1,14 @@
 jellyfin:
   deploymentStrategy:
     type: Recreate
-  ingress:
+  httpRoute:
     enabled: true
-    hosts:
-      - host: jellyfin.dubyatp.xyz
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls:
-      - secretName: cert-dubyatp.xyz
-        hosts:
-          - jellyfin.dubyatp.xyz
+    parentRefs:
+      - name: traefik
+        sectionName: https
+        kind: Gateway
+    hostnames:
+      - jellyfin.dubyatp.xyz
   persistence:
     config:
       size: 25Gi

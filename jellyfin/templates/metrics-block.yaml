@@ -1,4 +1,4 @@
-{{- if and (.Values.jellyfin.metrics.enabled) (.Values.jellyfin.ingress.enabled) -}}
+{{- if and (.Values.jellyfin.metrics.enabled) (.Values.jellyfin.httpRoute.enabled) -}}
 ---
 apiVersion: v1
 kind: Service
@@ -13,21 +13,22 @@ spec:
       port: 6767
       targetPort: 6767
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
   name: block-metrics
   namespace: {{ .Release.Namespace }}
 spec:
+  parentRefs:
+    {{- toYaml .Values.jellyfin.httpRoute.parentRefs | nindent 4 }}
+  hostnames:
+    {{- toYaml .Values.jellyfin.httpRoute.hostnames | nindent 4 }}
   rules:
-  - host: {{ (index .Values.jellyfin.ingress.hosts 0).host }}
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/metrics"
-        backend:
-          service:
-            name: dummy-svc
-            port: 
-              number: 6767
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /metrics
+      backendRefs:
+        - name: dummy-svc
+          port: 6767
 {{- end }}

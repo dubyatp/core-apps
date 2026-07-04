@@ -1,15 +1,27 @@
 gitea:
   replicaCount: 3
-  ingress:
-    enabled: true
-    hosts:
-      - host: git.dubyatp.xyz
-        paths:
-          - path: /
-    tls:
-      - secretName: cert-dubyatp-xyz
-        hosts:
-          - git.dubyatp.xyz
+#  ingress:
+#    enabled: true
+#    hosts:
+#      - host: git.dubyatp.xyz
+#        paths:
+#          - path: /
+#    tls:
+#      - secretName: cert-dubyatp-xyz
+#        hosts:
+#          - git.dubyatp.xyz
+  gateway:
+    httpRoute:
+      enabled: true
+      hostnames:
+        - git.dubyatp.xyz
+      parentRefs:
+        - name: traefik
+          sectionName: https
+          kind: Gateway
+      pathType: PathPrefix
+      paths:
+        - path: /
   persistence:
     enabled: true
     create: true
@@ -105,16 +117,24 @@ gitea:
           services:
           - name: gitea-ssh
             port: 22
-    - apiVersion: v1
-      kind: Secret
+    - apiVersion: gateway.networking.k8s.io/v1
+      kind: Gateway
       metadata:
-        name: cert-dubyatp-xyz
-        annotations:
-          replicator.v1.mittwald.de/replicate-from: "cert-manager/cert-dubyatp-xyz"
-          replicator.v1.mittwald.de/replicated-keys: "tls.crt,tls.key"
-      data:
-        tls.crt: ""
-        tls.key: ""
+        name: traefik
+      spec:
+        gatewayClassName: traefik
+        listeners:
+          - name: https
+            protocol: HTTPS
+            port: 8443
+            tls:
+              mode: Terminate
+              certificateRefs:
+                - name: cert-dubyatp-xyz
+                  namespace: cert-manager
+            allowedRoutes:
+              namespaces:
+                from: Same
     - apiVersion: external-secrets.io/v1
       kind: ExternalSecret
       metadata:

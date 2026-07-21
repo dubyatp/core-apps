@@ -54,7 +54,7 @@ spec:
         envFrom:
           - configMapRef:
               name: netmaker-config
-        image: gravitl/netmaker:v1.4.0
+        image: gravitl/netmaker:v1.6.0
         imagePullPolicy: Always
         name: netmaker
         ports:

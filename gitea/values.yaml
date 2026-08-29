@@ -83,8 +83,6 @@ gitea:
         OFFLINE_MODE: false
       service:
         DISABLE_REGISTRATION: true
-      webhook:
-        ALLOWED_HOST_LIST: "drone.infra.dubyatp.xyz,argocd.infra.dubyatp.xyz,discord.com,10.0.0.0/8"
       mailer:
         ENABLED: true
         FROM: gitea@em924671.dubyatp.xyz
@@ -94,6 +92,7 @@ gitea:
         USER: gitea_dubyatp
       security:
         INSTALL_LOCK: true
+        ALLOWED_HOST_LIST: "drone.infra.dubyatp.xyz,argocd.infra.dubyatp.xyz,discord.com,10.0.0.0/8"
     metrics:
       enabled: true
       serviceMonitor:

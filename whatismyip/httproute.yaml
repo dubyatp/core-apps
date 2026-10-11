@@ -22,4 +22,4 @@ spec:
           extensionRef:
             group: traefik.io
             kind: Middleware
-            name: cloudflarewarp@file
+            name: cloudflarewarp

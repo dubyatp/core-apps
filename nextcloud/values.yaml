@@ -1,0 +1,18 @@
+nextcloud:
+  image:
+    tag: 28.0.3-apache
+  httpRoute:
+    enabled: true
+    hostnames:
+      - nextcloud-test.dubyatp.xyz
+    parentRefs:
+      - name: traefik
+        sectionName: https
+        kind: Gateway
+  nextcloud:
+    host: nextcloud-test.dubyatp.xyz
+    existingSecret:
+      enabled: true
+      secretName: nextcloud-secret
+  internalDatabase:
+    disabled: true

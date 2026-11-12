@@ -1,0 +1,27 @@
+{{- if .Values.dataVolume.create }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.dataVolume.name }}
+spec:
+  capacity:
+    storage: 1Ti
+  accessModes: [ReadWriteMany]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  nfs:
+    server: 10.105.15.20
+    path: {{ .Values.dataVolume.nfsPath }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.dataVolume.name }}
+spec:
+  accessModes: [ReadWriteMany]
+  storageClassName: ""
+  volumeName: {{ .Values.dataVolume.name }}
+  resources:
+    requests:
+      storage: 1Ti
+{{- end }}

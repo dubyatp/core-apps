@@ -1,0 +1,30 @@
+{{- if .Values.externalSecret.admin.create }}
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: nextcloud-admin
+spec:
+  data:
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: nextcloud
+      metadataPolicy: None
+      property: nextcloud-username
+    secretKey: nextcloud-username
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: nextcloud
+      metadataPolicy: None
+      property: nextcloud-password
+    secretKey: nextcloud-password
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: weyma-vault
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: nextcloud-admin
+{{- end }}

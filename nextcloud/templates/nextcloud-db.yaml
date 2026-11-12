@@ -1,0 +1,27 @@
+{{- if .Values.externalSecret.db.create }}
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: nextcloud-db
+spec:
+  data:
+  - remoteRef:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: cloudnativepg
+      metadataPolicy: None
+      property: {{ .Values.externalSecret.db.cnpgPropertyName }}
+    secretKey: password
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: weyma-vault
+  target:
+    template:
+      data:
+        username: {{ .Values.externalSecret.db.username }}
+        password: "{{`{{ .password }}`}}"
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: nextcloud-db
+{{- end }}

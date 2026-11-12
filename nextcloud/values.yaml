@@ -1,0 +1,99 @@
+dataVolume:
+  create: true
+  name: nextcloud-data
+  nfsPath: /mnt/hdd-pool/nextcloud-files
+externalSecret:
+  db:
+    create: true
+    username: nextcloud
+    cnpgPropertyName: nextcloud_pw
+  admin:
+    create: true
+nextcloud:
+  podAnnotations:
+    backup.velero.io/backup-volumes: nextcloud-main
+  replicaCount: 1
+  httpRoute:
+    enabled: true
+    hostnames:
+      - nextcloud.dubyatp.xyz
+    parentRefs:
+      - name: traefik
+        sectionName: https
+        kind: Gateway
+    rules:
+      - matches:
+        - path:
+            type: PathPrefix
+            value: /
+        filters:
+          - type: ResponseHeaderModifier
+            responseHeaderModifier:
+              set:
+                - name: Strict-Transport-Security
+                  value: "max-age=15552000; includeSubDomains"
+  nextcloud:
+    host: nextcloud.dubyatp.xyz
+    existingSecret:
+      enabled: true
+      secretName: nextcloud-admin
+    configs:
+      domains.config.php: |-
+        <?php
+        $CONFIG = array (
+          'trusted_domains' => array (
+            0 => 'localhost',
+            1 => 'nextcloud.dubyatp.xyz',
+          ),
+          'overwrite.cli.url' => 'https://nextcloud.dubyatp.xyz',
+          'overwriteprotocol' => 'https',
+          'trusted_proxies' => array ('127.0.0.1', '10.0.0.0/8'),
+          'forwarded_for_headers' => array ('HTTP_X_FORWARDED_FOR'),
+          'default_phone_region' => 'US',
+          'maintenance_window_start' => 1,
+        );
+      db.config.php: |-
+        <?php
+        $CONFIG = array (
+          'dbtype' => 'pgsql',
+          'dbhost' => getenv('POSTGRES_HOST'),
+          'dbport' => '5432',
+          'dbname' => getenv('POSTGRES_DB'),
+          'dbuser' => getenv('POSTGRES_USER'),
+          'dbpassword' => getenv('POSTGRES_PASSWORD'),
+        );
+  internalDatabase:
+    enabled: false
+  externalDatabase:
+    enabled: true
+    type: postgresql
+    host: pooler-weyma-rw.cloudnativepg.svc.cluster.local
+    database: nextcloud
+    existingSecret:
+      enabled: true
+      secretName: nextcloud-db
+      usernameKey: username
+      passwordKey: password
+  redis:
+    enabled: true
+    architecture: standalone
+    auth:
+      enabled: false
+    master:
+      persistence:
+        enabled: false
+    commonConfiguration: |-
+      appendonly no
+      save ""
+  persistence:
+    enabled: true
+    nextcloudData:
+      enabled: true
+      existingClaim: nextcloud-data
+      accessMode: ReadWriteMany
+  cronjob:
+    enabled: true
+    type: sidecar
+  startupProbe:
+    enabled: true
+    failureThreshold: 90
